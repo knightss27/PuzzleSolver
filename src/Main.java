@@ -1,6 +1,10 @@
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+        TilesState tilesTest = new TilesState();
+        TilesAction newAction = new TilesAction(0, 15);
+
+        tilesTest.performAction(newAction);
+        tilesTest.display();
     }
 }
