@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,16 +15,6 @@ public class TilesState implements State {
             state = 0L;
             for (int i = 15; i >= 0; i--) {
                 setPlace(i, i);
-            }
-
-            if (useRandomState) {
-                for (int i = 0; i < 16; i++) {
-                    int place = (int) (Math.random() * 15);
-                    int current = getPlace(place);
-                    int replacing = getPlace(place+1);
-                    setPlace(place+1, current);
-                    setPlace(place, replacing);
-                }
             }
         }
 
@@ -53,18 +44,43 @@ public class TilesState implements State {
         state = new BitState(_state);
     }
 
+    public void randomize() {
+        for (int i = 0; i < 10; i++) {
+            List<Action> actions = listActions();
+            if (actions.size() == 0) {
+                return;
+            }
+            performAction(actions.get((int) (Math.random() * actions.size())));
+        }
+    }
+
     @Override
     public List<Action> listActions() {
-        return null;
+        for (int x = 0; x < 4; x++) {
+            for (int y = 0; y < 4; y++) {
+                if (state.getPlace(y*4 + x) == 0) {
+                    int[] possibleMovablePositions = new int[]{ (y-1)*4 + x, (y+1)*4 + x, y*4 + (x-1), y*4 + (x+1) };
+                    ArrayList<Action> actions = new ArrayList<Action>();
+                    for (int possible : possibleMovablePositions) {
+                        if (possible < 16 && possible >= 0) {
+                            actions.add(new TilesAction(possible, y*4 + x));
+                        }
+                    }
+                    return actions;
+                }
+            }
+        }
+        return new ArrayList<Action>();
     }
 
     @Override
     public boolean isGoalState() {
-        boolean isGoal = true;
-        for (int i = 0; i < 16; i++) {
-            isGoal = i == state.getPlace(i);
+        for (int i = 15; i >= 0; i--) {
+            if (i != state.getPlace(i)) {
+                return false;
+            }
         }
-        return isGoal;
+        return true;
     }
 
     @Override
@@ -91,11 +107,13 @@ public class TilesState implements State {
     public void performAction(Action action) {
         TilesAction newAction = (TilesAction) action;
 
-        if (state.getPlace(newAction.place) != 0) {
+        if (state.getPlace(newAction.moveTo) != 0) {
             return;
         }
 
-        state.setPlace(newAction.place, newAction.num);
+        int old = state.getPlace(newAction.moveTo);
+        state.setPlace(newAction.moveTo, state.getPlace(newAction.moveFrom));
+        state.setPlace(newAction.moveFrom, old);
         actionHistory.add(newAction);
     }
 

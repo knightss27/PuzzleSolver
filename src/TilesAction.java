@@ -1,16 +1,24 @@
 public class TilesAction implements Action {
 
-    public int place;
-    public int num;
+    public int moveFrom;
+    public int moveTo;
 
-    public TilesAction(int _place, int _num) {
-        place = _place;
-        num = _num;
+    public TilesAction(int _moveFrom, int _moveTo) {
+        moveFrom = _moveFrom;
+        moveTo = _moveTo;
     }
 
     @Override
     public void display() {
-        System.out.println("Change place" + place +  " to " + num);
+        System.out.println("Move tile in place " + moveFrom +  " to " + moveTo);
+    }
+
+    @Override
+    public String toString() {
+        return "TilesAction{" +
+                "moveFrom=" + moveFrom +
+                ", moveTo=" + moveTo +
+                '}';
     }
 
     @Override

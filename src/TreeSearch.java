@@ -30,7 +30,7 @@ public abstract class TreeSearch implements Search {
 
                 // look upwards through the tree to find parents
                 while (nodeOnPath != null) {
-                    solvedPath.add(nodeOnPath);
+                    solvedPath.addFirst(nodeOnPath);
                     nodeOnPath = nodeOnPath.parent;
                 }
 
