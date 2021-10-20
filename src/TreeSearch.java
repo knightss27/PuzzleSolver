@@ -14,9 +14,11 @@ public abstract class TreeSearch implements Search {
 
     @Override
     public Solution search(State startState) {
+        // make sure our frontier is clear if re-using solver
+        frontier.clear();
 
         // insert the first node into our frontier
-        frontier.insert(new SearchNode(startState, null, null));
+        frontier.insert(new SearchNode(startState, null, null, 0));
 
         while (!frontier.isEmpty()) {
             // get the next node in the frontier
@@ -40,7 +42,7 @@ public abstract class TreeSearch implements Search {
 
             //
             for (int i = 0; i < currentNode.children.size(); i++) {
-                SearchNode newNode = new SearchNode(currentNode.children.get(i), currentNode, currentNode.actions.get(i));
+                SearchNode newNode = new SearchNode(currentNode.children.get(i), currentNode, currentNode.actions.get(i), currentNode.depth + 1);
                 if (!shouldPruneNode(newNode)) {
                     frontier.insert(newNode);
                 }

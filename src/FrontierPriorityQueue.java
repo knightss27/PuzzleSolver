@@ -1,8 +1,8 @@
-import java.util.LinkedList;
+import java.util.PriorityQueue;
 
-public class FrontierQueue implements Frontier {
+public class FrontierPriorityQueue implements Frontier {
 
-    private LinkedList<SearchNode> frontier = new LinkedList<SearchNode>();
+    private PriorityQueue<SearchNode> frontier = new PriorityQueue<>();
 
     @Override
     public void clear() {
@@ -16,11 +16,11 @@ public class FrontierQueue implements Frontier {
 
     @Override
     public void insert(SearchNode node) {
-        frontier.addLast(node);
+        frontier.add(node);
     }
 
     @Override
     public SearchNode removeNext() {
-        return frontier.removeFirst();
+        return frontier.poll();
     }
 }

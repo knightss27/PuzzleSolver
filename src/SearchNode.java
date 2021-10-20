@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 import java.util.List;
 
-public class SearchNode {
+public class SearchNode implements Comparable {
     public State state;
     public SearchNode parent;
     public Action creatingAction;
@@ -12,10 +12,11 @@ public class SearchNode {
     public int cost;
     public int depth;
 
-    public SearchNode(State _state, SearchNode _parent, Action _creatingAction) {
-        state = _state;
+    public SearchNode(State _state, SearchNode _parent, Action _creatingAction, int _depth) {
+        state = _state.duplicate();
         parent = _parent;
         creatingAction = _creatingAction;
+        depth = _depth;
 
         actions = state.listActions();
         for (Action action : actions) {
@@ -24,6 +25,21 @@ public class SearchNode {
 
             children.add(newState);
         }
+    }
+
+    int evaluate() {
+        return state.heuristic() + depth;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        SearchNode node = (SearchNode) o;
+        if (node.evaluate() < evaluate()) {
+            return 1;
+        } else if (node.evaluate() == evaluate()) {
+            return 0;
+        }
+        return -1;
     }
 
     @Override

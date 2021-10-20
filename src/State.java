@@ -18,6 +18,8 @@ public interface State {
     // applies the given action to the current state
     void performAction(Action action);
 
+    int heuristic();
+
     // rolls back the given action from the current state
     // commented out for now, but documented in case we need it later
     // public void undoAction(Action action);

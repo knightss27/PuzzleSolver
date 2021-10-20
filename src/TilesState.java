@@ -4,14 +4,14 @@ import java.util.List;
 
 public class TilesState implements State {
 
-    private BitState state = new BitState(true);
+    public BitState state = new BitState();
     private LinkedList<TilesAction> actionHistory = new LinkedList<TilesAction>();
 
-    private static class BitState {
+    public static class BitState {
 
         private long state;
 
-        public BitState(boolean useRandomState) {
+        public BitState() {
             state = 0L;
             for (int i = 15; i >= 0; i--) {
                 setPlace(i, i);
@@ -23,7 +23,7 @@ public class TilesState implements State {
         }
 
         public int getPlace(int place) {
-            return (int) ((state >> place * 4) & 15);
+            return (int) ((state >> (place * 4)) & 15);
         }
 
         public void setPlace(long place, long num) {
@@ -44,6 +44,10 @@ public class TilesState implements State {
         state = new BitState(_state);
     }
 
+    public long getLong() {
+        return state.getLong();
+    }
+
     public void randomize() {
         for (int i = 0; i < 10; i++) {
             List<Action> actions = listActions();
@@ -59,11 +63,16 @@ public class TilesState implements State {
         for (int x = 0; x < 4; x++) {
             for (int y = 0; y < 4; y++) {
                 if (state.getPlace(y*4 + x) == 0) {
-                    int[] possibleMovablePositions = new int[]{ (y-1)*4 + x, (y+1)*4 + x, y*4 + (x-1), y*4 + (x+1) };
+                    int[][] possibleMovablePositions = new int[][]{
+                            new int[]{y-1, x},
+                            new int[]{y+1, x},
+                            new int[]{y, x-1},
+                            new int[]{y, x+1}
+                    };
                     ArrayList<Action> actions = new ArrayList<Action>();
-                    for (int possible : possibleMovablePositions) {
-                        if (possible < 16 && possible >= 0) {
-                            actions.add(new TilesAction(possible, y*4 + x));
+                    for (int[] possible : possibleMovablePositions) {
+                        if (possible[0] < 4 && possible[0] >= 0 && possible[1] < 4 && possible[1] >= 0) {
+                            actions.add(new TilesAction(possible[0]*4 + possible[1], y*4 + x));
                         }
                     }
                     return actions;
@@ -108,19 +117,38 @@ public class TilesState implements State {
         TilesAction newAction = (TilesAction) action;
 
         if (state.getPlace(newAction.moveTo) != 0) {
+            System.out.println("INVALID ACTION");
             return;
         }
 
-        int old = state.getPlace(newAction.moveTo);
         state.setPlace(newAction.moveTo, state.getPlace(newAction.moveFrom));
-        state.setPlace(newAction.moveFrom, old);
+        state.setPlace(newAction.moveFrom, 0);
         actionHistory.add(newAction);
     }
 
     @Override
+    public int heuristic() {
+        int total = 0;
+        for (int placeLookingAt = 0; placeLookingAt < 16; placeLookingAt++) {
+
+            int placeToGo = state.getPlace(placeLookingAt);
+            if (placeToGo == 0) {
+                continue;
+            }
+
+            int fromX = placeLookingAt % 4;
+            int fromY = placeLookingAt / 4;
+            int toX = placeToGo % 4;
+            int toY = placeToGo / 4;
+
+            total += Math.abs(toX - fromX) + Math.abs(toY - fromY);
+        }
+
+        return total;
+    }
+
+    @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
         TilesState that = (TilesState) o;
         return that.state.getLong() == state.getLong();
     }

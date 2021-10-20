@@ -1,8 +1,7 @@
-import java.util.LinkedList;
+import java.util.Stack;
 
-public class FrontierQueue implements Frontier {
-
-    private LinkedList<SearchNode> frontier = new LinkedList<SearchNode>();
+public class FrontierStack implements Frontier {
+    private Stack<SearchNode> frontier = new Stack<SearchNode>();
 
     @Override
     public void clear() {
@@ -16,11 +15,11 @@ public class FrontierQueue implements Frontier {
 
     @Override
     public void insert(SearchNode node) {
-        frontier.addLast(node);
+        frontier.add(node);
     }
 
     @Override
     public SearchNode removeNext() {
-        return frontier.removeFirst();
+        return frontier.pop();
     }
 }

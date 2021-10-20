@@ -12,4 +12,16 @@ public class Solution {
         end = path.get(path.size()-1);
     }
 
+    public int getPathLength() {
+        return path.size()-1;
+    }
+
+    public void displayPath() {
+        for (SearchNode action : path) {
+            if (action.creatingAction != null) {
+                action.creatingAction.display();
+            }
+            action.state.display();
+        }
+    }
 }
