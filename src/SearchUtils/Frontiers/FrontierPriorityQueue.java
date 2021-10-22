@@ -1,7 +1,13 @@
-import java.util.Stack;
+package SearchUtils.Frontiers;
 
-public class FrontierStack implements Frontier {
-    private Stack<SearchNode> frontier = new Stack<SearchNode>();
+import SearchUtils.SearchNode;
+import PuzzleInterfaces.Frontier;
+
+import java.util.PriorityQueue;
+
+public class FrontierPriorityQueue implements Frontier {
+
+    private PriorityQueue<SearchNode> frontier = new PriorityQueue<>();
 
     @Override
     public void clear() {
@@ -20,6 +26,6 @@ public class FrontierStack implements Frontier {
 
     @Override
     public SearchNode removeNext() {
-        return frontier.pop();
+        return frontier.poll();
     }
 }

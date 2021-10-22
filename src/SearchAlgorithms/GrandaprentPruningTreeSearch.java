@@ -1,3 +1,8 @@
+package SearchAlgorithms;
+
+import PuzzleInterfaces.Frontier;
+import SearchUtils.SearchNode;
+
 public class GrandaprentPruningTreeSearch extends TreeSearch {
     public GrandaprentPruningTreeSearch(Frontier _frontier) {
         super(_frontier);

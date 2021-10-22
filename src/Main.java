@@ -1,6 +1,12 @@
+import SearchAlgorithms.AStarSearch;
+import SearchUtils.SearchNode;
+import SearchUtils.Solution;
+import SearchUtils.Solver;
+import TilePuzzle.TilePuzzleState;
+
 public class Main {
     public static void main(String[] args) {
-        TilesState tilesTest = new TilesState();
+        TilePuzzleState tilesTest = new TilePuzzleState();
         tilesTest.randomize();
         tilesTest.display();
         System.out.println(tilesTest.heuristic());

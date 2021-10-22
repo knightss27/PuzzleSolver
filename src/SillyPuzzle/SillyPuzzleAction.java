@@ -1,3 +1,7 @@
+package SillyPuzzle;
+
+import PuzzleInterfaces.Action;
+
 public class SillyPuzzleAction implements Action {
 
     int delta;

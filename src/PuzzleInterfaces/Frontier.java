@@ -1,3 +1,7 @@
+package PuzzleInterfaces;
+
+import SearchUtils.SearchNode;
+
 public interface Frontier {
     // removes all elements from the Frontier
     void clear();

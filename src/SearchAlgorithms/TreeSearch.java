@@ -1,3 +1,11 @@
+package SearchAlgorithms;
+
+import PuzzleInterfaces.Search;
+import PuzzleInterfaces.State;
+import SearchUtils.SearchNode;
+import SearchUtils.Solution;
+import PuzzleInterfaces.Frontier;
+
 import java.util.LinkedList;
 
 public abstract class TreeSearch implements Search {

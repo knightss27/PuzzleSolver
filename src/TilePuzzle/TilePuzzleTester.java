@@ -1,3 +1,10 @@
+package TilePuzzle;
+
+import PuzzleInterfaces.Search;
+import PuzzleInterfaces.State;
+import SearchAlgorithms.IDAStarSearch;
+import SearchUtils.Solution;
+
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -28,7 +35,7 @@ public class TilePuzzleTester {
             String correctSolution = fields[5];
 
 //            State startState = new TilesState(startStateArray);   // use a constructor that expects an array of 16 ints
-            State startState = new TilesState(startStateBits);  // use a constructor that expects a single 64-bit long
+            State startState = new TilePuzzleState(startStateBits);  // use a constructor that expects a single 64-bit long
 
             long startTime = System.nanoTime();
             Solution solution = searcher.search(startState);

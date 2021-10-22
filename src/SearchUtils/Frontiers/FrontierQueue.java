@@ -1,3 +1,8 @@
+package SearchUtils.Frontiers;
+
+import SearchUtils.SearchNode;
+import PuzzleInterfaces.Frontier;
+
 import java.util.LinkedList;
 
 public class FrontierQueue implements Frontier {

@@ -1,11 +1,15 @@
+package TilePuzzle;
+
+import PuzzleInterfaces.Action;
+import PuzzleInterfaces.State;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TilesState implements State {
+public class TilePuzzleState implements State {
 
     public BitState state = new BitState();
-    private LinkedList<TilesAction> actionHistory = new LinkedList<TilesAction>();
 
     public static class BitState {
 
@@ -37,10 +41,10 @@ public class TilesState implements State {
         }
     }
 
-    public TilesState() {
+    public TilePuzzleState() {
         display();
     }
-    public TilesState(long _state) {
+    public TilePuzzleState(long _state) {
         state = new BitState(_state);
     }
 
@@ -60,26 +64,37 @@ public class TilesState implements State {
 
     @Override
     public List<Action> listActions() {
+        ArrayList<Action> actions = new ArrayList<>();
+        int zeroIndex = 0;
         for (int x = 0; x < 4; x++) {
             for (int y = 0; y < 4; y++) {
-                if (state.getPlace(y*4 + x) == 0) {
-                    int[][] possibleMovablePositions = new int[][]{
-                            new int[]{y-1, x},
-                            new int[]{y+1, x},
-                            new int[]{y, x-1},
-                            new int[]{y, x+1}
-                    };
-                    ArrayList<Action> actions = new ArrayList<Action>();
-                    for (int[] possible : possibleMovablePositions) {
-                        if (possible[0] < 4 && possible[0] >= 0 && possible[1] < 4 && possible[1] >= 0) {
-                            actions.add(new TilesAction(possible[0]*4 + possible[1], y*4 + x));
-                        }
-                    }
-                    return actions;
+                if (state.getPlace(y * 4 + x) == 0) {
+                    zeroIndex = y * 4 + x;
                 }
             }
         }
-        return new ArrayList<Action>();
+
+//        System.out.println(zeroIndex);
+
+        if (zeroIndex % 4 == 0) {
+            actions.add(new TilePuzzleAction(zeroIndex+1, zeroIndex));
+        } else if (zeroIndex % 4 == 3) {
+            actions.add(new TilePuzzleAction(zeroIndex-1, zeroIndex));
+        } else {
+            actions.add(new TilePuzzleAction(zeroIndex+1, zeroIndex));
+            actions.add(new TilePuzzleAction(zeroIndex-1, zeroIndex));
+        }
+
+        if (zeroIndex / 4 == 0) {
+            actions.add(new TilePuzzleAction(zeroIndex+4, zeroIndex));
+        } else if (zeroIndex / 4 == 3) {
+            actions.add(new TilePuzzleAction(zeroIndex-4, zeroIndex));
+        } else {
+            actions.add(new TilePuzzleAction(zeroIndex+4, zeroIndex));
+            actions.add(new TilePuzzleAction(zeroIndex-4, zeroIndex));
+        }
+
+        return actions;
     }
 
     @Override
@@ -109,12 +124,12 @@ public class TilesState implements State {
 
     @Override
     public State duplicate() {
-        return new TilesState(state.getLong());
+        return new TilePuzzleState(state.getLong());
     }
 
     @Override
     public void performAction(Action action) {
-        TilesAction newAction = (TilesAction) action;
+        TilePuzzleAction newAction = (TilePuzzleAction) action;
 
         if (state.getPlace(newAction.moveTo) != 0) {
             System.out.println("INVALID ACTION");
@@ -123,7 +138,7 @@ public class TilesState implements State {
 
         state.setPlace(newAction.moveTo, state.getPlace(newAction.moveFrom));
         state.setPlace(newAction.moveFrom, 0);
-        actionHistory.add(newAction);
+//        actionHistory.add(newAction);
     }
 
     @Override
@@ -149,7 +164,7 @@ public class TilesState implements State {
 
     @Override
     public boolean equals(Object o) {
-        TilesState that = (TilesState) o;
+        TilePuzzleState that = (TilePuzzleState) o;
         return that.state.getLong() == state.getLong();
     }
 }

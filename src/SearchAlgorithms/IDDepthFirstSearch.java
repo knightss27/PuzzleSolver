@@ -1,3 +1,10 @@
+package SearchAlgorithms;
+
+import PuzzleInterfaces.Search;
+import PuzzleInterfaces.State;
+import SearchUtils.Solution;
+import SearchUtils.Solver;
+
 public class IDDepthFirstSearch implements Search {
 
     int limit;

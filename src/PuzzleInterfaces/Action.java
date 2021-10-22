@@ -1,4 +1,6 @@
-interface Action {
+package PuzzleInterfaces;
+
+public interface Action {
 
     // displays a human-readable form of this action
     void display();

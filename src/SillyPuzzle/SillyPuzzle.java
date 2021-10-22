@@ -1,3 +1,11 @@
+package SillyPuzzle;
+
+import PuzzleInterfaces.Action;
+import PuzzleInterfaces.Search;
+import PuzzleInterfaces.State;
+import SearchAlgorithms.BreadthFirstSearch;
+import SearchUtils.Solution;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +34,7 @@ public class SillyPuzzle implements State {
     }
 
     @Override
-    public List listActions() {
+    public List<Action> listActions() {
         ArrayList actions = new ArrayList<>();
         actions.add(new SillyPuzzleAction(-1));
         actions.add(new SillyPuzzleAction(+1));

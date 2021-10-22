@@ -1,9 +1,13 @@
-public class TilesAction implements Action {
+package TilePuzzle;
+
+import PuzzleInterfaces.Action;
+
+public class TilePuzzleAction implements Action {
 
     public int moveFrom;
     public int moveTo;
 
-    public TilesAction(int _moveFrom, int _moveTo) {
+    public TilePuzzleAction(int _moveFrom, int _moveTo) {
         moveFrom = _moveFrom;
         moveTo = _moveTo;
     }

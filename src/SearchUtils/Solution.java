@@ -1,3 +1,5 @@
+package SearchUtils;
+
 import java.util.List;
 
 public class Solution {

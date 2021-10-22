@@ -1,3 +1,7 @@
+package SearchAlgorithms;
+
+import SearchUtils.SearchNode;
+
 public class DepthLimitedAStarSearch extends DepthFirstSearch {
 
     private int limit;

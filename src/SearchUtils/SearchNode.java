@@ -1,5 +1,10 @@
+package SearchUtils;
+
 import java.util.LinkedList;
 import java.util.List;
+
+import PuzzleInterfaces.Action;
+import PuzzleInterfaces.State;
 
 public class SearchNode implements Comparable {
     public State state;
@@ -27,7 +32,7 @@ public class SearchNode implements Comparable {
         }
     }
 
-    int evaluate() {
+    public int evaluate() {
         return state.heuristic() + depth;
     }
 
