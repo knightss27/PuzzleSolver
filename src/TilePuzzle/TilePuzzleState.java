@@ -67,11 +67,10 @@ public class TilePuzzleState implements State {
     public List<Action> listActions() {
         ArrayList<Action> actions = new ArrayList<>();
         int zeroIndex = 0;
-        for (int x = 0; x < 4; x++) {
-            for (int y = 0; y < 4; y++) {
-                if (state.getPlace(y * 4 + x) == 0) {
-                    zeroIndex = y * 4 + x;
-                }
+        for (int i = 0; i < 16; i++) {
+            if (state.getPlace(i) == 0) {
+                zeroIndex = i;
+                break;
             }
         }
 
@@ -137,7 +136,6 @@ public class TilePuzzleState implements State {
 
         state.setPlace(newAction.moveTo, state.getPlace(newAction.moveFrom));
         state.setPlace(newAction.moveFrom, 0);
-//        actionHistory.add(newAction);
     }
 
     @Override

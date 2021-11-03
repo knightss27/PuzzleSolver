@@ -13,26 +13,13 @@ public class RushHourState implements State {
     public RushHourBitState horizontalState = new RushHourBitState();
     public RushHourBitState verticalState = new RushHourBitState();
 
-    private enum CarOrientation {
-        HORIZONTAL, VERTICAL
-    }
-
-    private enum CarLength {
-        SHORT (2), LONG (3);
-
-        private int length;
-        private CarLength(int length){
-            this.length=length;
-        }
-    }
-
     public RushHourState() {
-        setVehicle(0, 3, CarOrientation.HORIZONTAL);
-        setVehicle(5, 3, CarOrientation.VERTICAL);
+        setVehicle(0, 3, Car.Orientation.HORIZONTAL);
+        setVehicle(5, 3, Car.Orientation.VERTICAL);
     }
 
-    void setVehicle(int position, int length, CarOrientation orientation) {
-        if (orientation == CarOrientation.HORIZONTAL) {
+    void setVehicle(int position, int length, int orientation) {
+        if (orientation == Car.Orientation.HORIZONTAL) {
             for (int i = 0; i < length; i++) {
                 state.setBit(position + i);
                 horizontalState.setBit(position + i);
@@ -109,9 +96,9 @@ public class RushHourState implements State {
             return;
         }
 
-        if (newAction.orientation == CarOrientation.HORIZONTAL) {
-
-        }
+//        if (newAction.orientation == CarOrientation.HORIZONTAL) {
+//
+//        }
     }
 
     @Override

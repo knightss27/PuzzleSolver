@@ -16,7 +16,6 @@ public class IDAStarSearch implements Search {
         while (solution == null) {
             DepthLimitedAStarSearch search = new DepthLimitedAStarSearch(currentLimit);
             solution = Solver.solve(startState, search);
-//            System.out.println(search.smallestThreshold);
             currentLimit = search.smallestThreshold;
         }
         return solution;
