@@ -10,6 +10,7 @@ import java.util.List;
 public class TilePuzzleState implements State {
 
     public BitState state = new BitState();
+    private int calculatedHeuristic = -1;
 
     public static class BitState {
 
@@ -73,8 +74,6 @@ public class TilePuzzleState implements State {
                 }
             }
         }
-
-//        System.out.println(zeroIndex);
 
         if (zeroIndex % 4 == 0) {
             actions.add(new TilePuzzleAction(zeroIndex+1, zeroIndex));
@@ -143,6 +142,9 @@ public class TilePuzzleState implements State {
 
     @Override
     public int heuristic() {
+        if (calculatedHeuristic >= 0) {
+            return calculatedHeuristic;
+        }
         int total = 0;
         for (int placeLookingAt = 0; placeLookingAt < 16; placeLookingAt++) {
 
