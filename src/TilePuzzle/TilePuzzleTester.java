@@ -14,7 +14,7 @@ import java.util.List;
 public class TilePuzzleTester {
 
     public static void main(String[] args) {
-        testTiles("tiles-testcases-ul.txt", new IDAStarSearch());
+        testTiles("tiles-testcases-ul2.txt", new IDAStarSearch());
     }
 
     static void testTiles(String filename, Search searcher) {
@@ -45,17 +45,18 @@ public class TilePuzzleTester {
             if (solution.getPathLength() != correctPathLength) {
                 System.out.println("ERROR: wrong path length for " + startState + " should be " + correctPathLength + " but got " + solution.getPathLength());
                 solution.end.state.display();
+                System.out.println(startStateBits);
             }
 
             // Check if your manhattan distance heuristic matches the correct values
-            if (startState.heuristic() != correctManhattanDistanceHeuristic) {
-                System.out.println("ERROR: wrong heuristic for " + startState + " should be " + correctManhattanDistanceHeuristic + " but got " + startState.heuristic());
-            }
+//            if (startState.heuristic() != correctManhattanDistanceHeuristic) {
+//                System.out.println("ERROR: wrong heuristic for " + startState + " should be " + correctManhattanDistanceHeuristic + " but got " + startState.heuristic());
+//            }
 
-            //            // Check that your custom heuristic is never pessimistic
-            //            if (startState.heuristic() > solution.getPathLength()) {
-            //                System.out.println("ERROR: pessimistic heuristic for " + startState + " heuristic " + startState.heuristic() + " should be less than " + solution.getPathLength());
-            //            }
+            // Check that your custom heuristic is never pessimistic
+            if (startState.heuristic() > solution.getPathLength()) {
+                System.out.println("ERROR: pessimistic heuristic for " + startState + " heuristic " + startState.heuristic() + " should be less than " + solution.getPathLength());
+            }
 
             if (previousPathLength != -1 && previousPathLength != correctPathLength) {
                 displayAverageTime(searcher, previousPathLength, totalTime, numTests);

@@ -13,10 +13,13 @@ public class IDAStarSearch implements Search {
     public Solution search(State startState) {
         int currentLimit = startState.heuristic();
         Solution solution = null;
+        DepthLimitedAStarSearch algo = new DepthLimitedAStarSearch(currentLimit);
         while (solution == null) {
-            DepthLimitedAStarSearch search = new DepthLimitedAStarSearch(currentLimit);
-            solution = Solver.solve(startState, search);
-            currentLimit = search.smallestThreshold;
+            algo.limit = currentLimit;
+            algo.smallestThreshold = Integer.MAX_VALUE;
+
+            solution = Solver.solve(startState, algo);
+            currentLimit = algo.smallestThreshold;
         }
         return solution;
     }

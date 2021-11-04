@@ -4,7 +4,7 @@ import SearchUtils.SearchNode;
 
 public class DepthLimitedAStarSearch extends DepthFirstSearch {
 
-    private int limit;
+    public int limit;
     protected int smallestThreshold = Integer.MAX_VALUE;
 
     public DepthLimitedAStarSearch(int _heuristicLimit) {
@@ -14,10 +14,11 @@ public class DepthLimitedAStarSearch extends DepthFirstSearch {
 
     @Override
     boolean shouldPruneNode(SearchNode node) {
-        if (node.evaluate() < smallestThreshold && node.evaluate() > limit) {
-            smallestThreshold = node.evaluate();
+        int heuristic = node.evaluate();
+        if (heuristic < smallestThreshold && heuristic > limit) {
+            smallestThreshold = heuristic;
         }
 
-         return super.shouldPruneNode(node) || node.evaluate() > limit;
+         return super.shouldPruneNode(node) || heuristic > limit;
     }
 }

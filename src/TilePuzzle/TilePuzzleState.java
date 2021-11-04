@@ -65,7 +65,7 @@ public class TilePuzzleState implements State {
 
     @Override
     public List<Action> listActions() {
-        ArrayList<Action> actions = new ArrayList<>();
+        LinkedList<Action> actions = new LinkedList<>();
         int zeroIndex = 0;
         for (int i = 0; i < 16; i++) {
             if (state.getPlace(i) == 0) {
@@ -74,22 +74,20 @@ public class TilePuzzleState implements State {
             }
         }
 
-        if (zeroIndex % 4 == 0) {
-            actions.add(new TilePuzzleAction(zeroIndex+1, zeroIndex));
-        } else if (zeroIndex % 4 == 3) {
-            actions.add(new TilePuzzleAction(zeroIndex-1, zeroIndex));
-        } else {
-            actions.add(new TilePuzzleAction(zeroIndex+1, zeroIndex));
+        if (zeroIndex % 4 != 0) {
             actions.add(new TilePuzzleAction(zeroIndex-1, zeroIndex));
         }
 
-        if (zeroIndex / 4 == 0) {
-            actions.add(new TilePuzzleAction(zeroIndex+4, zeroIndex));
-        } else if (zeroIndex / 4 == 3) {
+        if (zeroIndex % 4 != 3) {
+            actions.add(new TilePuzzleAction(zeroIndex+1, zeroIndex));
+        }
+
+        if (zeroIndex > 3) {
             actions.add(new TilePuzzleAction(zeroIndex-4, zeroIndex));
-        } else {
+        }
+
+        if (zeroIndex < 12) {
             actions.add(new TilePuzzleAction(zeroIndex+4, zeroIndex));
-            actions.add(new TilePuzzleAction(zeroIndex-4, zeroIndex));
         }
 
         return actions;
@@ -97,12 +95,7 @@ public class TilePuzzleState implements State {
 
     @Override
     public boolean isGoalState() {
-        for (int i = 15; i >= 0; i--) {
-            if (i != state.getPlace(i)) {
-                return false;
-            }
-        }
-        return true;
+        return state.getLong() == 0xfedcba9876543210L;
     }
 
     @Override
@@ -144,6 +137,8 @@ public class TilePuzzleState implements State {
             return calculatedHeuristic;
         }
         int total = 0;
+        int place1 = 0;
+        int place2 = 0;
         for (int placeLookingAt = 0; placeLookingAt < 16; placeLookingAt++) {
 
             int placeToGo = state.getPlace(placeLookingAt);
@@ -151,14 +146,62 @@ public class TilePuzzleState implements State {
                 continue;
             }
 
-            int fromX = placeLookingAt % 4;
-            int fromY = placeLookingAt / 4;
-            int toX = placeToGo % 4;
-            int toY = placeToGo / 4;
+            total += Math.abs(placeToGo % 4 - placeLookingAt % 4) + Math.abs(placeToGo / 4 - placeLookingAt / 4);
 
-            total += Math.abs(toX - fromX) + Math.abs(toY - fromY);
+
+            if (placeToGo == 1) {
+                place1 = placeLookingAt;
+            } else if (placeToGo == 4) {
+                place2 = placeLookingAt;
+            }
         }
 
+        // Last move rule
+//        if (place1 % 4 > 0 && place2 / 4 > 0) {
+//            total += 2;
+//        }
+
+
+        // Linear conflict: Need to ask jeffrey
+        // For ever square:
+        // If it's on the correct column
+            // check all the other squares on the column to see if they need to be moved beyond our current one
+            // if they do then total += 2
+        // If it's on the correct row
+            // check all the other squares on the row to see if they need to be moved beyond the current one
+            // if they do then total += 2
+
+        // Linear conflict rule
+        for (int x = 0; x < 4; x++) {
+            for (int y = 0; y < 4; y++) {
+                int placeToGo = state.getPlace(y * 4 + x);
+                if (placeToGo == 0) {
+                    continue;
+                }
+
+                // Same y value == same row
+                if (placeToGo / 4 == y) {
+                    for (int x2 = x+1; x2 < 4; x2++) {
+                        int conflictTile = state.getPlace(y * 4 + x2);
+                        if (conflictTile != 0 && conflictTile / 4 == y && conflictTile % 4 < x) {
+                            total += 2;
+                        }
+                    }
+                }
+
+                // Same x value == same column
+                if (placeToGo % 4 == x) {
+                    for (int y2 = y+1; y2 < 4; y2++) {
+                        int conflictTile = state.getPlace(y2 * 4 + x);
+                        if (conflictTile != 0 && conflictTile % 4 == x && conflictTile / 4 < y) {
+                            total += 2;
+                        }
+                    }
+                }
+            }
+        }
+
+        calculatedHeuristic = total;
         return total;
     }
 

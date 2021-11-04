@@ -3,8 +3,8 @@ package SearchAlgorithms;
 import PuzzleInterfaces.Frontier;
 import SearchUtils.SearchNode;
 
-public class GrandaprentPruningTreeSearch extends TreeSearch {
-    public GrandaprentPruningTreeSearch(Frontier _frontier) {
+public class GrandparentPruningTreeSearch extends TreeSearch {
+    public GrandparentPruningTreeSearch(Frontier _frontier) {
         super(_frontier);
     }
 
