@@ -1,3 +1,4 @@
+// Seth Knights
 package TilePuzzle;
 
 import PuzzleInterfaces.Action;
@@ -15,6 +16,10 @@ public class TilePuzzleAction implements Action {
     @Override
     public void display() {
         System.out.println("Move tile in place " + moveFrom +  " to " + moveTo);
+    }
+
+    public TilePuzzleAction duplicate() {
+        return new TilePuzzleAction(moveFrom, moveTo);
     }
 
     @Override

@@ -1,3 +1,4 @@
+// Seth Knights
 public class BitUtils {
     static int getBit(long bits, int position) {
         return (int) ((bits >> position) & 1);

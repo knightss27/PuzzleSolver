@@ -1,3 +1,4 @@
+// Seth Knights
 package SillyPuzzle;
 
 import PuzzleInterfaces.Action;
@@ -19,5 +20,4 @@ public class SillyPuzzleAction implements Action {
     public int getCost() {
         return 1;
     }
-
 }

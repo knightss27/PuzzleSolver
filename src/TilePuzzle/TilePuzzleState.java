@@ -1,3 +1,4 @@
+// Seth Knights
 package TilePuzzle;
 
 import PuzzleInterfaces.Action;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class TilePuzzleState implements State {
 
-    public BitState state = new BitState();
+    public BitState state;
     private int calculatedHeuristic = -1;
 
     public static class BitState {
@@ -42,15 +43,8 @@ public class TilePuzzleState implements State {
         }
     }
 
-    public TilePuzzleState() {
-        display();
-    }
     public TilePuzzleState(long _state) {
         state = new BitState(_state);
-    }
-
-    public long getLong() {
-        return state.getLong();
     }
 
     public void randomize() {
@@ -133,12 +127,11 @@ public class TilePuzzleState implements State {
 
     @Override
     public int heuristic() {
-        if (calculatedHeuristic >= 0) {
-            return calculatedHeuristic;
-        }
+//        if (calculatedHeuristic >= 0) {
+//            return calculatedHeuristic;
+//        }
         int total = 0;
-        int place1 = 0;
-        int place2 = 0;
+
         for (int placeLookingAt = 0; placeLookingAt < 16; placeLookingAt++) {
 
             int placeToGo = state.getPlace(placeLookingAt);
@@ -147,29 +140,7 @@ public class TilePuzzleState implements State {
             }
 
             total += Math.abs(placeToGo % 4 - placeLookingAt % 4) + Math.abs(placeToGo / 4 - placeLookingAt / 4);
-
-
-            if (placeToGo == 1) {
-                place1 = placeLookingAt;
-            } else if (placeToGo == 4) {
-                place2 = placeLookingAt;
-            }
         }
-
-        // Last move rule
-//        if (place1 % 4 > 0 && place2 / 4 > 0) {
-//            total += 2;
-//        }
-
-
-        // Linear conflict: Need to ask jeffrey
-        // For ever square:
-        // If it's on the correct column
-            // check all the other squares on the column to see if they need to be moved beyond our current one
-            // if they do then total += 2
-        // If it's on the correct row
-            // check all the other squares on the row to see if they need to be moved beyond the current one
-            // if they do then total += 2
 
         // Linear conflict rule
         for (int x = 0; x < 4; x++) {
@@ -207,6 +178,8 @@ public class TilePuzzleState implements State {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         TilePuzzleState that = (TilePuzzleState) o;
         return that.state.getLong() == state.getLong();
     }

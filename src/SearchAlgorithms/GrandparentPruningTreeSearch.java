@@ -1,3 +1,4 @@
+// Seth Knights
 package SearchAlgorithms;
 
 import PuzzleInterfaces.Frontier;
@@ -13,6 +14,6 @@ public class GrandparentPruningTreeSearch extends TreeSearch {
         if (node.parent == null || node.parent.parent == null) {
             return false;
         }
-        return node.parent.parent.equals(node);
+        return node.equals(node.parent.parent);
     }
 }

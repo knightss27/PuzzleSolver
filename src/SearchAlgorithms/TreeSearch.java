@@ -8,6 +8,7 @@ import PuzzleInterfaces.Frontier;
 
 import java.util.LinkedList;
 
+// Seth Knights
 public abstract class TreeSearch implements Search {
 
     public Frontier frontier;
@@ -48,7 +49,7 @@ public abstract class TreeSearch implements Search {
                 return new Solution(solvedPath);
             }
 
-            //
+            // add new children to the tree
             for (int i = 0; i < currentNode.children.size(); i++) {
                 SearchNode newNode = new SearchNode(currentNode.children.get(i), currentNode, currentNode.actions.get(i), currentNode.depth + 1);
                 if (!shouldPruneNode(newNode)) {

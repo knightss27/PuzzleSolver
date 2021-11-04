@@ -1,3 +1,4 @@
+// Seth Knights
 package SearchAlgorithms;
 
 import SearchUtils.SearchNode;
@@ -19,6 +20,6 @@ public class DepthLimitedAStarSearch extends DepthFirstSearch {
             smallestThreshold = heuristic;
         }
 
-         return super.shouldPruneNode(node) || heuristic > limit;
+         return super.shouldPruneNode(node) || (heuristic > limit);
     }
 }

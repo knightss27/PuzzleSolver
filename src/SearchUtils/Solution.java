@@ -14,7 +14,9 @@ public class Solution {
         end = path.get(path.size()-1);
     }
 
+
     public int getPathLength() {
+        // subtract 1 as the path includes the starting state
         return path.size()-1;
     }
 

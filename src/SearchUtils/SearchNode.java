@@ -48,6 +48,14 @@ public class SearchNode implements Comparable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SearchNode that = (SearchNode) o;
+        return that.state.equals(this.state);
+    }
+
+    @Override
     public String toString() {
         return "SearchNode{" +
                 "state=" + state +

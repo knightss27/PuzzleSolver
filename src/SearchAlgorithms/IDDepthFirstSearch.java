@@ -13,7 +13,7 @@ public class IDDepthFirstSearch implements Search {
         limit = depthLimit;
     }
 
-    IDDepthFirstSearch() {
+    public IDDepthFirstSearch() {
         limit = -1;
     }
 

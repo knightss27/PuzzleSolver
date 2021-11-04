@@ -1,3 +1,4 @@
+// Seth Knights
 package PuzzleInterfaces;
 
 public interface Action {

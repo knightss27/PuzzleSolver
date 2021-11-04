@@ -1,3 +1,4 @@
+// Seth Knights
 package SearchAlgorithms;
 
 import SearchUtils.Frontiers.FrontierStack;

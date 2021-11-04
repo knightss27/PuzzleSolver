@@ -7,8 +7,6 @@ import SearchUtils.Solver;
 
 public class IDAStarSearch implements Search {
 
-    public IDAStarSearch(){}
-
     @Override
     public Solution search(State startState) {
         int currentLimit = startState.heuristic();

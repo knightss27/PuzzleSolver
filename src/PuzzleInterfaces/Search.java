@@ -1,3 +1,4 @@
+// Seth Knights
 package PuzzleInterfaces;
 
 import SearchUtils.Solution;

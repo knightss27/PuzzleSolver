@@ -1,3 +1,5 @@
+// Seth Knights
+// UNFINISHED
 package RushHourPuzzle;
 
 import PuzzleInterfaces.Action;

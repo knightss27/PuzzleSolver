@@ -1,3 +1,4 @@
+// Seth Knights
 package SearchUtils.Frontiers;
 
 import SearchUtils.SearchNode;
