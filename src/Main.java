@@ -24,12 +24,12 @@ public class Main {
 
         Solution test = Solver.solve(tilesTest, new IDAStarSearch());
         System.out.println("Found path of length: " + (test.path.size()-1) + " when should have been 32");
-        for (SearchNode action : test.path) {
-            if (action.creatingAction != null) {
-                action.creatingAction.display();
-            }
-            action.state.display();
-            System.out.println("Heuristic of above state: " + action.state.heuristic());
-        }
+//        for (SearchNode action : test.path) {
+//            if (action.creatingAction != null) {
+//                action.creatingAction.display();
+//            }
+//            action.state.display();
+//            System.out.println("Heuristic of above state: " + action.state.heuristic());
+//        }
     }
 }
