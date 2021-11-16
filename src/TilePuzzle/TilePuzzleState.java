@@ -5,6 +5,7 @@ import PuzzleInterfaces.Action;
 import PuzzleInterfaces.State;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -171,6 +172,8 @@ public class TilePuzzleState implements State {
             }
         }
 
+        System.out.println(Arrays.deepToString(conflicts));
+
         // calculate conflicts;
         int greatestIndex = 0;
         int[] numConflicts = new int[4];
@@ -206,6 +209,7 @@ public class TilePuzzleState implements State {
 
                 for (int x2 = x + 1; x2 < 4; x2++) {
                     int conflictTile = state.getPlace(y * 4 + x2);
+                    System.out.println("looking at " + conflictTile + " from " + placeToGo);
                     if (conflictTile != 0 && conflictTile / 4 == y && conflictTile % 4 < x) {
                         conflicts[x][x2] = true;
                         conflicts[x2][x] = true;
@@ -213,6 +217,8 @@ public class TilePuzzleState implements State {
                 }
             }
         }
+
+        System.out.println(Arrays.deepToString(conflicts));
 
         // calculate conflicts;
         greatestIndex = 0;

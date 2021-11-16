@@ -6,19 +6,17 @@ import PuzzleInterfaces.Action;
 
 public class RushHourAction implements Action {
 
-    public int car;
+    public Car car;
     public int shift;
-    public int orientation;
 
-    public RushHourAction(int car, int orientation, int shift) {
+    public RushHourAction(Car car, int shift) {
         this.car = car;
-        this.orientation = orientation;
         this.shift = shift;
     }
 
     @Override
     public void display() {
-
+        System.out.println("Moves car at " + car.position + " " + (car.orientation == Car.Orientation.HORIZONTAL ? "HORIZONTALLY" : "VERTICALLY") + " by " + shift + " units.");
     }
 
     @Override
