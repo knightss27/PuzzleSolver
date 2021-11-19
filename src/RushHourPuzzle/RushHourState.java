@@ -215,17 +215,33 @@ public class RushHourState implements State {
 
     @Override
     public void display() {
-        StringBuilder board = new StringBuilder("--------------------------\n");
+
+        int[][] boardInts = new int[6][6];
+        for (int i = 0; i < 16; i++) {
+            if (getVehiclePosition(vehicles[i]) >= 0) {
+                int position = getVehiclePosition(vehicles[i]);
+                int orientation = getVehicleOrientation(vehicles[i]);
+                for (int j = 0; j < getVehicleLength(vehicles[i]); j++) {
+                    boardInts[(position + (orientation == 0 ? j : j * 6)) / 6][(position + (orientation == 0 ? j : j * 6)) % 6] = i+1;
+                }
+            }
+
+        }
+
+        StringBuilder boardStr = new StringBuilder("------------------\n");
         for (int i = 0; i < 36; i += 6) {
             StringBuilder line = new StringBuilder("|");
             for (int j = i; j < i+6; j++) {
                 line.append(String.format("%3s",state.getBit(j))).append(" ");
             }
             line.append("|\n");
-            board.append(line);
+            boardStr.append(line);
         }
-        board.append("--------------------------\n");
-        System.out.println(board);
+        boardStr.append("--------------------------\n");
+
+        String board = Arrays.deepToString(boardInts).replace("], ", "]\n");
+        System.out.println(board.substring(1,board.length()-1));
+        System.out.println(boardStr);
     }
 
     @Override
@@ -239,8 +255,24 @@ public class RushHourState implements State {
 
         if (newAction.car.position < 0 || newAction.car.position >= 36 || state.getBit(newAction.car.position) != 1) {
             System.out.println("INVALID ACTION");
-            action.display();
-            return;
+            newAction.display();
+            display();
+            List<Action> actions = listActions();
+            for (Action action1 : actions) {
+                action1.display();
+            }
+
+            int vehicleID = 0;
+            for (int i = 0; i < vehicles.length; i++) {
+                if (getVehiclePosition(vehicles[i]) == newAction.car.position) {
+                    vehicleID = i;
+                }
+            }
+
+            System.out.println(getVehiclePosition(vehicles[vehicleID]));
+
+            throw new RuntimeException("Bad action");
+//            return;
         }
 
         int vehicleID = 0;

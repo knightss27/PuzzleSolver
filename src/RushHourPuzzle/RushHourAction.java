@@ -16,7 +16,7 @@ public class RushHourAction implements Action {
 
     @Override
     public void display() {
-        System.out.println("Moves car at " + car.position + " " + (car.orientation == Car.Orientation.HORIZONTAL ? "HORIZONTALLY" : "VERTICALLY") + " by " + shift + " units.");
+        System.out.println("Moves car at " + "(" + car.position%6 + ", " + car.position/6 + ") " + (car.orientation == Car.Orientation.HORIZONTAL ? "HORIZONTALLY" : "VERTICALLY") + " by " + shift + " units.");
     }
 
     @Override

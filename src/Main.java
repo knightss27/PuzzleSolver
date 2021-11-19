@@ -27,9 +27,9 @@ public class Main {
 
 
 //        RushHourState rushHourState = new RushHourState("H3-0,V2-3,X2-14");
-//        RushHourState rushHourState = new RushHourState("H2-0,V3-5,V3-6,V3-9,V2-24,H2-28,H3-32,X2-13");
-//        rushHourState.display();
-
+        RushHourState rushHourState = new RushHourState("H2-0,V3-5,V3-6,V3-9,V2-24,H2-28,H3-32,X2-13");
+        rushHourState.display();
+//
 //        for (Action action : rushHourState.listActions()) {
 //            action.display();
 //        }
@@ -38,7 +38,7 @@ public class Main {
 //        rushHourState.display();
 //        System.out.println(rushHourState.isGoalState());
 
-//        Solution solution = Solver.solve(rushHourState, new IDDepthFirstSearch());
+        Solution solution = Solver.solve(rushHourState, new IDDepthFirstSearch());
 //        for (SearchNode node : solution.path) {
 //            node.state.display();
 //        }
@@ -64,13 +64,13 @@ public class Main {
 //        }
 
         // 9 3,14,9,11,5,4,8,2,13,12,6,7,10,1,15,0 32 36 46
-        TilePuzzleState tilesTestGoal = new TilePuzzleState(0xfedcba9876543210L);
-        TilePuzzleState tilesTest = new TilePuzzleState(Long.parseUnsignedLong("0000111100011010011101101100110100101000010001011011100111100011", 2));
-
-        tilesTestGoal.display();
-        tilesTest.display();
-        System.out.println(tilesTest.heuristic() + " <-- should be 36");
-
+//        TilePuzzleState tilesTestGoal = new TilePuzzleState(0xfedcba9876543210L);
+//        TilePuzzleState tilesTest = new TilePuzzleState(Long.parseUnsignedLong("0000111100011010011101101100110100101000010001011011100111100011", 2));
+//
+//        tilesTestGoal.display();
+//        tilesTest.display();
+//        System.out.println(tilesTest.heuristic() + " <-- should be 36");
+//
 //        Solution test = Solver.solve(tilesTest, new IDAStarSearch());
 //        System.out.println("Found path of length: " + (test.path.size()-1) + " when should have been 46");
 //        for (SearchNode action : test.path) {

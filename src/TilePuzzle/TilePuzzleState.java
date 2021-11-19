@@ -4,8 +4,6 @@ package TilePuzzle;
 import PuzzleInterfaces.Action;
 import PuzzleInterfaces.State;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -138,9 +136,9 @@ public class TilePuzzleState implements State {
 
     @Override
     public int heuristic() {
-//        if (calculatedHeuristic >= 0) {
-//            return calculatedHeuristic;
-//        }
+        if (calculatedHeuristic >= 0) {
+            return calculatedHeuristic;
+        }
         int total = 0;
 
         for (int placeLookingAt = 0; placeLookingAt < 16; placeLookingAt++) {
@@ -153,28 +151,17 @@ public class TilePuzzleState implements State {
             total += Math.abs(placeToGo % 4 - placeLookingAt % 4) + Math.abs(placeToGo / 4 - placeLookingAt / 4);
         }
 
-        boolean[][] conflicts = new boolean[4][4];
-        for (int x = 0; x < 4; x++) {
-            // calculate row conflicts
-            for (int y = 0; y < 4; y++) {
-                int placeToGo = state.getPlace(y * 4 + x);
-                if (placeToGo == 0 || placeToGo % 4 != x || placeToGo / 4 == 3) {
-                    continue;
-                }
+        // calculate conflicts in column
+        total += calculateConflictArrayTotal(calculateConflicts(true));
+        // calculate conflicts in row
+        total += calculateConflictArrayTotal(calculateConflicts(false));
 
-                for (int y2 = y + 1; y2 < 4; y2++) {
-                    int conflictTile = state.getPlace(y2 * 4 + x);
-                    if (conflictTile != 0 && conflictTile % 4 == x && conflictTile / 4 < y) {
-                        conflicts[x][y2] = true;
-                        conflicts[y2][x] = true;
-                    }
-                }
-            }
-        }
+        calculatedHeuristic = total;
+        return total;
+    }
 
-        System.out.println(Arrays.deepToString(conflicts));
-
-        // calculate conflicts;
+    private int calculateConflictArrayTotal(boolean[][] conflicts) {
+        int total = 0;
         int greatestIndex = 0;
         int[] numConflicts = new int[4];
         while (true) {
@@ -192,138 +179,42 @@ public class TilePuzzleState implements State {
 
             total += 2;
             numConflicts[greatestIndex] = 0;
-            conflicts[greatestIndex] = new boolean[]{false, false, false, false};
+            conflicts[greatestIndex] = new boolean[4];
             for (int i = 0; i < 4; i++) {
                 conflicts[i][greatestIndex] = false;
             }
         }
+        return total;
+    }
 
-        conflicts = new boolean[4][4];
-        for (int y = 0; y < 4; y++) {
-            // calculate row conflicts
-            for (int x = 0; x < 4; x++) {
-                int placeToGo = state.getPlace(y * 4 + x);
-                if (placeToGo == 0 || placeToGo / 4 != y || placeToGo % 4 == 3) {
+    private boolean[][] calculateConflicts(boolean isColumn) {
+        boolean[][] conflicts = new boolean[4][4];
+        for (int x = 0; x < 4; x++) {
+            // calculate column conflicts
+            for (int y = 0; y < 3; y++) {
+                int placeToGo = state.getPlace(isColumn ? (y * 4 + x) : (x * 4 + y));
+                if (placeToGo == 0 || (isColumn && placeToGo % 4 != x) || (!isColumn && placeToGo / 4 != x)) {
                     continue;
                 }
 
-                for (int x2 = x + 1; x2 < 4; x2++) {
-                    int conflictTile = state.getPlace(y * 4 + x2);
-                    System.out.println("looking at " + conflictTile + " from " + placeToGo);
-                    if (conflictTile != 0 && conflictTile / 4 == y && conflictTile % 4 < x) {
-                        conflicts[x][x2] = true;
-                        conflicts[x2][x] = true;
+                for (int y2 = y + 1; y2 < 4; y2++) {
+                    int conflictTile = state.getPlace(isColumn ? (y2 * 4 + x) : (x * 4 + y2));
+                    if (isColumn) {
+                        if (conflictTile != 0 && conflictTile % 4 == x && conflictTile / 4 <= placeToGo / 4) {
+                            conflicts[y][y2] = true;
+                            conflicts[y2][y] = true;
+                        }
+                    } else {
+                        if (conflictTile != 0 && conflictTile / 4 == x && conflictTile % 4 <= placeToGo % 4) {
+                            conflicts[y][y2] = true;
+                            conflicts[y2][y] = true;
+                        }
                     }
+
                 }
             }
         }
-
-        System.out.println(Arrays.deepToString(conflicts));
-
-        // calculate conflicts;
-        greatestIndex = 0;
-        numConflicts = new int[4];
-        while (true) {
-            for (int i = 0; i < conflicts.length; i++) {
-                numConflicts[i] = measureNumConflictsInRow(conflicts[i]);
-            }
-            for (int i = 0; i < numConflicts.length; i++) {
-                if (numConflicts[i] > numConflicts[greatestIndex]) {
-                    greatestIndex = i;
-                }
-            }
-            if (numConflicts[greatestIndex] == 0) {
-                break;
-            }
-
-            total += 2;
-            numConflicts[greatestIndex] = 0;
-            conflicts[greatestIndex] = new boolean[]{false, false, false, false};
-            for (int i = 0; i < 4; i++) {
-                conflicts[i][greatestIndex] = false;
-            }
-        }
-
-
-        // Linear conflict rule
-//        for (int x = 0; x < 4; x++) {
-//            for (int y = 0; y < 4; y++) {
-//                int placeToGo = state.getPlace(y * 4 + x);
-//                if (placeToGo == 0) {
-//                    continue;
-//                }
-//
-//                // my code counts 2 conflicts when there should only be one, i.e. (2 3 1) which counts
-//                // a conflict between 2, 1 and 3, 1
-//
-//                // If we are in correct row
-//                if (placeToGo / 4 == y) {
-//                    for (int x2 = x+1; x2 < 4; x2++) {
-//                        int conflictTile = state.getPlace(y * 4 + x2);
-//                        if (conflictTile != 0 && conflictTile / 4 == y && conflictTile % 4 < x) {
-////                            total += 2;
-//                            conflicts[x]++;
-//                            conflicts[x2]++;
-//                        }
-//                    }
-//                }
-//
-//                int greatestIndex = 0;
-//                while (true) {
-//                    for (int i = 0; i < conflicts.length; i++) {
-//                        if (conflicts[i] > conflicts[greatestIndex]) {
-//                            greatestIndex = i;
-//                        }
-//                    }
-//                    if (conflicts[greatestIndex] == 0) {
-//                        break;
-//                    }
-//                    total += 2;
-//                    conflicts[greatestIndex] = 0;
-//                    for (int i = 0; i < conflicts.length; i++) {
-//                        if (i != greatestIndex) {
-//                            conflicts[i]--;
-//                        }
-//                    }
-//                }
-//
-//
-//                conflicts = new int[]{ 0, 0, 0, 0 };
-//                // Same x value == same column
-//                if (placeToGo % 4 == x) {
-//                    for (int y2 = y+1; y2 < 4; y2++) {
-//                        int conflictTile = state.getPlace(y2 * 4 + x);
-//                        if (conflictTile != 0 && conflictTile % 4 == x && conflictTile < placeToGo) {
-////                            total += 2;
-//                            conflicts[y]++;
-//                            conflicts[y2]++;
-//                        }
-//                    }
-//                }
-//
-//                greatestIndex = 0;
-//                while (true) {
-//                    for (int i = 0; i < conflicts.length; i++) {
-//                        if (conflicts[i] > conflicts[greatestIndex]) {
-//                            greatestIndex = i;
-//                        }
-//                    }
-//                    if (conflicts[greatestIndex] == 0) {
-//                        break;
-//                    }
-//                    total += 2;
-//                    conflicts[greatestIndex] = 0;
-//                    for (int i = 0; i < conflicts.length; i++) {
-//                        if (i != greatestIndex) {
-//                            conflicts[i]--;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-
-        calculatedHeuristic = total;
-        return total;
+        return conflicts;
     }
 
     @Override
