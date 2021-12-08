@@ -113,7 +113,7 @@ public class Connect4State extends State {
         return ((red & (1L << (row * COLS + col))) != 0);
     }
 
-    Side getCell(int row, int col) {
+    public Side getCell(int row, int col) {
         if (isBlackCell(row, col))
             return BLACK;
         else if (isRedCell(row, col))

@@ -1,13 +1,11 @@
 // Seth Knights
 
+import CircularSwitcherPuzzle.CircularSwitcherState;
 import PuzzleInterfaces.Action;
 import RushHourPuzzle.Car;
 import RushHourPuzzle.RushHourAction;
 import RushHourPuzzle.RushHourState;
-import SearchAlgorithms.BreadthFirstSearch;
-import SearchAlgorithms.DepthFirstSearch;
-import SearchAlgorithms.IDAStarSearch;
-import SearchAlgorithms.IDDepthFirstSearch;
+import SearchAlgorithms.*;
 import SearchUtils.SearchNode;
 import SearchUtils.Solution;
 import SearchUtils.Solver;
@@ -26,9 +24,28 @@ public class Main {
         // I am currently unsure how to debug and fix this, I will get back to you if I find anything.
 
 
+//        CircularSwitcherState switcherState = new CircularSwitcherState();
+//        switcherState.display();
+//        System.out.println(switcherState.isGoalState());
+
+        CircularSwitcherState switcherState2 = new CircularSwitcherState(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20});
+//        CircularSwitcherState switcherState2 = new CircularSwitcherState(new int[]{12,5,20,4,19,6,10,8,9,7,14,15,2,11,18,13,17,1,16,3});
+        switcherState2.randomize(1);
+        switcherState2.display();
+        System.out.println("\n Path \n");
+
+        Solution switcherSolution = Solver.solve(switcherState2, new IDAStarSearch());
+        for (SearchNode node : switcherSolution.path) {
+            if (node.creatingAction != null) {
+                node.creatingAction.display();
+            }
+            node.state.display();
+        }
+
+
 //        RushHourState rushHourState = new RushHourState("H3-0,V2-3,X2-14");
-        RushHourState rushHourState = new RushHourState("H2-0,V3-5,V3-6,V3-9,V2-24,H2-28,H3-32,X2-13");
-        rushHourState.display();
+//        RushHourState rushHourState = new RushHourState("H2-0,V3-5,V3-6,V3-9,V2-24,H2-28,H3-32,X2-13");
+//        rushHourState.display();
 //
 //        for (Action action : rushHourState.listActions()) {
 //            action.display();
@@ -38,7 +55,7 @@ public class Main {
 //        rushHourState.display();
 //        System.out.println(rushHourState.isGoalState());
 
-        Solution solution = Solver.solve(rushHourState, new IDDepthFirstSearch());
+//        Solution solution = Solver.solve(rushHourState, new IDDepthFirstSearch());
 //        for (SearchNode node : solution.path) {
 //            node.state.display();
 //        }

@@ -112,10 +112,10 @@ public class RushHourState implements State {
         return getBit(vehicle, 6) == 0 ? Car.Orientation.HORIZONTAL : Car.Orientation.VERTICAL;
     }
 
-    private byte setVehicleLocation(byte info, int location) {
-        byte newInfo = (byte) (location+1);
-        newInfo = getVehicleOrientation(info) == 1 ? setBit(newInfo, 6) : newInfo;
-        newInfo = getVehicleLength(info) == 1 ? setBit(newInfo, 7) : newInfo;
+    private byte setVehicleLocation(byte vehicle, int location) {
+        byte newInfo = (byte) (location);
+        newInfo = getVehicleOrientation(vehicle) == 1 ? setBit(newInfo, 6) : newInfo;
+        newInfo = getVehicleLength(vehicle) == 1 ? setBit(newInfo, 7) : newInfo;
         return newInfo;
     }
 
