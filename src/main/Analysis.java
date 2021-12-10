@@ -24,8 +24,8 @@ public class Analysis {
         Evaluator[] evaluators = game.getEvaluators();
         Player[] players = new Player[evaluators.length];
         for (int i = 0; i < evaluators.length; i++) {
-//            players[i] = new MiniMaxPlayer(4, evaluators[i]);   // edit to use a different Player
-            players[i] = new GreedyPlayer(evaluators[i]);
+            players[i] = new AlphaBetaPlayer(4, evaluators[i]);   // edit to use a different Player
+//            players[i] = new GreedyPlayer(evaluators[i]);
         }
         playerMatrixThreaded(game.getInitialState(), players, numTrials, 4);
     }

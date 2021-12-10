@@ -7,9 +7,6 @@ public class AlphaBetaPlayer extends Player {
     final Evaluator evaluator;
     final int maxDepth;
 
-    int alpha;
-    int beta;
-
     public AlphaBetaPlayer(int maxDepth, Evaluator evaluator) {
         this.evaluator = evaluator;
         this.maxDepth = maxDepth;
@@ -20,14 +17,14 @@ public class AlphaBetaPlayer extends Player {
 
         boolean isMaxi = connect4State.getSideToPlay() == Side.ONE;
         int optimized = isMaxi ? Integer.MIN_VALUE : Integer.MAX_VALUE;
-        SearchNode bestNode = connect4State.listChildren().get(0);
+        SearchNode bestNode = null;
 
-        alpha = Integer.MIN_VALUE;
-        beta = Integer.MAX_VALUE;
+        int alpha = Integer.MIN_VALUE;
+        int beta = Integer.MAX_VALUE;
 
         for (SearchNode child : connect4State.listChildren()) {
-            int evaluated = childEvaluation(child.state, 0, !isMaxi);
-            if ((!isMaxi && evaluated < optimized) || (isMaxi && evaluated > optimized)) {
+            int evaluated = childEvaluation(child.state, 0, !isMaxi, alpha, beta);
+            if ((isMaxi && evaluated > optimized) || (!isMaxi && evaluated < optimized)) {
                 optimized = evaluated;
                 bestNode = child;
             }
@@ -35,13 +32,13 @@ public class AlphaBetaPlayer extends Player {
         return bestNode;
     }
 
-    private int childEvaluation(State state, int depth, boolean maximize) {
+    private int childEvaluation(State state, int depth, boolean maximize, int alpha, int beta) {
         if (depth >= maxDepth || state.isGameOver()) {
             return evaluator.evaluate(state);
         } else {
             int optimized = maximize ? Integer.MIN_VALUE : Integer.MAX_VALUE;
             for (SearchNode child : state.listChildren()) {
-                int evaluated = childEvaluation(child.state, depth+1, !maximize);
+                int evaluated = childEvaluation(child.state, depth+1, !maximize, alpha, beta);
                 if ((maximize && evaluated > optimized) || (!maximize && evaluated < optimized)) {
                     optimized = evaluated;
                 }

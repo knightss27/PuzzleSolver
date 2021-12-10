@@ -17,7 +17,7 @@ public class Main {
     }
 
     static void compareEvaluators() {
-        Analysis.compareEvaluatorsForGame(new Connect4Game(), 100);
+        Analysis.compareEvaluatorsForGame(new Connect4Game(), 10);
     }
 
     static void timeEvaluators() {

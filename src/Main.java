@@ -28,9 +28,9 @@ public class Main {
 //        switcherState.display();
 //        System.out.println(switcherState.isGoalState());
 
-        CircularSwitcherState switcherState2 = new CircularSwitcherState(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20});
+        CircularSwitcherState switcherState2 = new CircularSwitcherState(new int[]{1, 4, 17, 18, 6, 13, 20, 10, 11, 12, 16, 8, 7, 5, 9, 14, 3, 19, 15, 2});
 //        CircularSwitcherState switcherState2 = new CircularSwitcherState(new int[]{12,5,20,4,19,6,10,8,9,7,14,15,2,11,18,13,17,1,16,3});
-        switcherState2.randomize(1);
+//        switcherState2.randomize(1);
         switcherState2.display();
         System.out.println("\n Path \n");
 
