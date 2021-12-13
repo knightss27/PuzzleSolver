@@ -1,3 +1,4 @@
+// Seth Knights
 package players;
 
 import games.connect4.Connect4State;

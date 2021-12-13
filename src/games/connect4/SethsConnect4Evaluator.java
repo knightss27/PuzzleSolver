@@ -1,6 +1,5 @@
+// Seth Knights
 package games.connect4;
-
-// Author: Andrew Merrill
 
 import main.*;
 
@@ -15,20 +14,18 @@ public class SethsConnect4Evaluator implements Evaluator {
         else if (board.redWon())
             return -1000000;
         else {
-            // could be good to try and play in the middle to start
-            if (board.getCell(0, 4) == board.getSideToPlay() && Connect4Utility.countRuns(board, 7, isBlack ? 1 : 0, isBlack ? 0 : 1, 6) == 1) {
-                return 10000000 * (isBlack ? 1 : -1);
-            }
+            // In multiple 100-game trials, this algorithm appears to beat C4-0 100% of the time.
 
-            int total = 0;
-            int total4s = 0;
-            int total3s = 0;
-            int total2s = 0;
-            total4s += Connect4Utility.countRuns(board, 4, isBlack ? 3 : 0, isBlack ? 0 : 3, 1);
-            total3s += Connect4Utility.countRuns(board, 4, isBlack ? 2 : 0, isBlack ? 0 : 2, 2);
-            total2s += Connect4Utility.countRuns(board, 3, isBlack ? 2 : 0, isBlack ? 0 : 2, 1);
+            int total4s = Connect4Utility.countRuns(board, 4, isBlack ? 3 : 0, isBlack ? 0 : 3, 1);
+            int total3s = Connect4Utility.countRuns(board, 4, isBlack ? 2 : 0, isBlack ? 0 : 2, 2);
+            int total2s = Connect4Utility.countRuns(board, 4, isBlack ? 1 : 0, isBlack ? 0 : 1, 3);
 
-            return (total4s * 10000 + total3s * 1000 + total2s * 100) * (isBlack ? 1 : -1);
+            // I am only using these separate counts so I can weigh them differently
+            int total4sOpp = Connect4Utility.countRuns(board, 4, isBlack ? 0 : 3, isBlack ? 3 : 0, 1);
+            int total3sOpp = Connect4Utility.countRuns(board, 4, isBlack ? 0 : 2, isBlack ? 2 : 0, 2);
+            int total2sOpp = Connect4Utility.countRuns(board, 4, isBlack ? 0 : 1, isBlack ? 1 : 0, 3);
+
+            return (total4s * 10000 + total3s * 1000 + total2s * 100 - total4sOpp * 12000 - total3sOpp * 1200 - total2sOpp * 100) * (isBlack ? 1 : -1);
         }
     }
 
