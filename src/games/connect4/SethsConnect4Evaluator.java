@@ -24,13 +24,10 @@ public class SethsConnect4Evaluator implements Evaluator {
             int total4s = 0;
             int total3s = 0;
             int total2s = 0;
-            for (SearchNode move : board.listChildren()) {
-                if (move.state.isGameOver() && move.state.getWinner() == board.getSideToPlay()) {
-                    total4s += 1;
-                }
-            }
-            total3s += Connect4Utility.countRuns(board, 4, isBlack ? 3 : 0, isBlack ? 0 : 3, 1);
+            total4s += Connect4Utility.countRuns(board, 4, isBlack ? 3 : 0, isBlack ? 0 : 3, 1);
+            total3s += Connect4Utility.countRuns(board, 4, isBlack ? 2 : 0, isBlack ? 0 : 2, 2);
             total2s += Connect4Utility.countRuns(board, 3, isBlack ? 2 : 0, isBlack ? 0 : 2, 1);
+
             return (total4s * 10000 + total3s * 1000 + total2s * 100) * (isBlack ? 1 : -1);
         }
     }
