@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
 
 public class TilePuzzleTester {
@@ -22,6 +23,7 @@ public class TilePuzzleTester {
         int numTests = 0;
         int previousPathLength = -1;
         List<String> inputLines = readFile(filename);
+
         for (String inputLine : inputLines) {
             String[] fields = inputLine.split(" ");
             int correctPathLength = Integer.parseInt(fields[0]);
