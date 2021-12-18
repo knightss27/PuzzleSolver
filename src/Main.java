@@ -13,20 +13,11 @@ import TilePuzzle.TilePuzzleState;
 
 public class Main {
     public static void main(String[] args) {
-        // In its current state, I have searches working up to IDA*.
-        // This is solely for the 15 puzzle, as I have yet to finish Rush Hour.
-        // I will be working more on Rush Hour on Thur. 11/4
-        // So if you are reading this, I probably didn't update the files.
+        // FOR ANDREW!!!!!!
+        // All major sections of the project have been completed.
+        // Read the write-up here:
+        // https://docs.google.com/document/d/1qDYUTbxP1Zpg6NPEXp4r22-eAD91nJdGigYY0feXySM/edit
 
-        // Lastly, there are some odd things about my algorithm.
-        // Notably, that for 2 specific states the puzzle finds a path 2 moves long
-        // The state below is one of them, which should take 32 moves to complete, but takes 34 instead.
-        // I am currently unsure how to debug and fix this, I will get back to you if I find anything.
-
-
-//        CircularSwitcherState switcherState = new CircularSwitcherState();
-//        switcherState.display();
-//        System.out.println(switcherState.isGoalState());
 
         CircularSwitcherState switcherState2 = new CircularSwitcherState(new int[]{1, 4, 17, 18, 6, 13, 20, 10, 11, 12, 16, 8, 7, 5, 9, 14, 3, 19, 15, 2});
 //        CircularSwitcherState switcherState2 = new CircularSwitcherState(new int[]{12,5,20,4,19,6,10,8,9,7,14,15,2,11,18,13,17,1,16,3});
@@ -42,6 +33,7 @@ public class Main {
             node.state.display();
         }
 
+//        Various testing code.
 
 //        RushHourState rushHourState = new RushHourState("H3-0,V2-3,X2-14");
 //        RushHourState rushHourState = new RushHourState("H2-0,V3-5,V3-6,V3-9,V2-24,H2-28,H3-32,X2-13");
@@ -79,8 +71,7 @@ public class Main {
 //        for (Action action : rushHourState.listActions()) {
 //            action.display();
 //        }
-
-        // 9 3,14,9,11,5,4,8,2,13,12,6,7,10,1,15,0 32 36 46
+//
 //        TilePuzzleState tilesTestGoal = new TilePuzzleState(0xfedcba9876543210L);
 //        TilePuzzleState tilesTest = new TilePuzzleState(Long.parseUnsignedLong("0000111100011010011101101100110100101000010001011011100111100011", 2));
 //

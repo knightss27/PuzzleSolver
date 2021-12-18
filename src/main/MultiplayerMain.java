@@ -8,7 +8,7 @@ import games.connect4.Connect4State;
 import players.AlphaBetaPlayer;
 import players.MiniMaxPlayer;
 
-public class Main {
+public class MultiplayerMain {
     public static void main(String[] args) {
         compareEvaluators();
         //timeEvaluators();

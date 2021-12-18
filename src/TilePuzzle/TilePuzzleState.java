@@ -12,8 +12,8 @@ public class TilePuzzleState implements State {
 
     public BitState state;
     private int calculatedHeuristic = -1;
-    private int lastMoveFrom = -1;
-    private int lastMoveTo = -1;
+//    private int lastMoveFrom = -1;
+//    private int lastMoveTo = -1;
 
     public static class BitState {
 
@@ -49,12 +49,13 @@ public class TilePuzzleState implements State {
         this.state = new BitState(state);
     }
 
-    public TilePuzzleState(long state, int calculatedHeuristic, int lastMoveFrom, int lastMoveTo) {
-        this.state = new BitState(state);
-        this.calculatedHeuristic = calculatedHeuristic;
-        this.lastMoveFrom = lastMoveFrom;
-        this.lastMoveTo = lastMoveTo;
-    }
+//    Don't mind me, just trying to see if I could optimize the linear conflicts.
+//    public TilePuzzleState(long state, int calculatedHeuristic, int lastMoveFrom, int lastMoveTo) {
+//        this.state = new BitState(state);
+//        this.calculatedHeuristic = calculatedHeuristic;
+//        this.lastMoveFrom = lastMoveFrom;
+//        this.lastMoveTo = lastMoveTo;
+//    }
 
     public void randomize() {
         for (int i = 0; i < 10; i++) {
@@ -118,7 +119,7 @@ public class TilePuzzleState implements State {
 
     @Override
     public State duplicate() {
-        return new TilePuzzleState(state.getLong(), calculatedHeuristic, lastMoveFrom, lastMoveTo);
+        return new TilePuzzleState(state.getLong());
     }
 
     @Override
@@ -133,8 +134,8 @@ public class TilePuzzleState implements State {
         state.setPlace(newAction.moveTo, state.getPlace(newAction.moveFrom));
         state.setPlace(newAction.moveFrom, 0);
 
-        lastMoveFrom = newAction.moveFrom;
-        lastMoveTo = newAction.moveTo;
+//        lastMoveFrom = newAction.moveFrom;
+//        lastMoveTo = newAction.moveTo;
     }
 
     private int measureNumConflictsInRow(boolean[] arr) {
@@ -149,9 +150,9 @@ public class TilePuzzleState implements State {
 
     @Override
     public int heuristic() {
-//        if (calculatedHeuristic >= 0) {
-//            return calculatedHeuristic;
-//        }
+        if (calculatedHeuristic >= 0) {
+            return calculatedHeuristic;
+        }
 
         int total = 0;
 
@@ -165,19 +166,10 @@ public class TilePuzzleState implements State {
             total += Math.abs(placeToGo % 4 - placeLookingAt % 4) + Math.abs(placeToGo / 4 - placeLookingAt / 4);
         }
 
-//        System.out.println(lastMoveFrom);
-        if (calculatedHeuristic != -1 && lastMoveFrom != -1 && lastMoveTo != -1) {
-            if (lastMoveFrom % 4 != lastMoveTo % 4) {
-                total += calculateConflictArrayTotal(calculateConflicts(true));
-            } else if (lastMoveFrom / 4 != lastMoveTo / 4) {
-                total += calculateConflictArrayTotal(calculateConflicts(false));
-            }
-        } else {
-            // calculate conflicts in column
-            total += calculateConflictArrayTotal(calculateConflicts(true));
-            // calculate conflicts in row
-            total += calculateConflictArrayTotal(calculateConflicts(false));
-        }
+        // calculate conflicts in column
+        total += calculateConflictArrayTotal(calculateConflicts(true));
+        // calculate conflicts in row
+        total += calculateConflictArrayTotal(calculateConflicts(false));
 
         calculatedHeuristic = total;
 
